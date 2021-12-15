@@ -10,49 +10,11 @@ require_once '../class/grated_radish_sauce_class.php';
 require_once '../class/wasabi_soy_sauce.php';
 
 $fried_chicken = new FriedChicken($_POST['fried_number'], $_POST['chili_number'], $_POST['grated_radish_number'], $_POST['wasabi_soy_number']);
-$fried_chicken_price = $fried_chicken->calculatePrice();
-$fried_chicken_number = $fried_chicken->number;
-
-if ($_POST['fried_number'] > 0) {
-	$chili = new ChiliSauce($_POST['chili_number']);
-	$chili_price = $chili->calculatePrice();
-	$chili_number = $chili->number;
-
-	$grated_radish = new GratedRadishSauce($_POST['grated_radish_number']);
-	$grated_radish_price = $grated_radish->calculatePrice();
-	$grated_radish_number = $grated_radish->number;
-
-	$wasabi_soy = new WasabiSoySauce($_POST['wasabi_soy_number']);
-	$wasabi_soy_price = $wasabi_soy->calculatePrice();
-	$wasabi_soy_number = $wasabi_soy->number;
-}
-
 $chicken_nanban = new ChickenNanban($_POST['nanban_number']);
-$chicken_nanban_price = $chicken_nanban->calculatePrice();
-$chicken_nanban_number = $chicken_nanban->number;
-
 $curry = new Curry($_POST['curry_number']);
-$curry_price = $curry->calculatePrice();
-$curry_number = $curry->number;
-
-$menu_sum_price = 0;
-
 $orders = [$fried_chicken, $chicken_nanban, $curry];
-foreach ($orders as $order) {
-	$order->displayOrder();
-	$menu_sum_price += $order->calculatePrice();
-}
 
-$sum = $menu_sum_price + $fried_chicken->getSauceSumPrice();
-displaySumPrice(number_format($sum));
-
-var_dump($sum);
-
-if ($_POST['fried_number'] > 0) {
-	$sum_price = $fried_chicken_price + $chicken_nanban_price + $curry_price + $chili_price + $grated_radish_price + $wasabi_soy_price;
-} else {
-	$sum_price = $fried_chicken_price + $chicken_nanban_price + $curry_price;
-}
+$today = (new DateTimeImmutable())->format('Y年m月d日 H:i');
 
 function displaySumPrice($sum) {
     echo <<<EOM
@@ -62,8 +24,6 @@ function displaySumPrice($sum) {
 EOM;
 
 }
-
-$today = (new DateTimeImmutable())->format('Y年m月d日 H:i');
 
 ?>
 
@@ -85,41 +45,15 @@ $today = (new DateTimeImmutable())->format('Y年m月d日 H:i');
         <div class="text-center mb-5">
             <small><?php echo $today ?></small>
         </div>
-        <div class="form-group row align-items-center justify-content-center">
-            <span class="col-3">唐揚げ定食 &emsp;900円</span>
-            <span class="col-1">&emsp;×<?php echo $fried_chicken_number ?></span>
-            <span><?php echo number_format($fried_chicken_price) ?>円</span>
-        </div>
-        <?php if ($fried_chicken_number > 0) { ?>
-        <div class="form-group row align-items-center justify-content-center">
-            <span class="col-3 text-right">チリソース &emsp;50円</span>
-            <span class="col-1">&emsp;×<?php echo $chili_number ?></span>
-            <span><?php echo number_format($chili_price) ?>円</span>
-        </div>
-        <div class="form-group row align-items-center justify-content-center">
-            <span class="col-3 text-right">大根おろしソース &emsp;100円</span>
-            <span class="col-1">&emsp;×<?php echo $grated_radish_number ?></span>
-            <span><?php echo number_format($grated_radish_price) ?>円</span>
-        </div>
-        <div class="form-group row align-items-center justify-content-center">
-            <span class="col-3 text-right">わさび醤油 &emsp;50円</span>
-            <span class="col-1">&emsp;×<?php echo $wasabi_soy_number ?></span>
-            <span><?php echo number_format($wasabi_soy_price) ?>円</span>
-        </div>
-        <?php } ?>
-        <div class="form-group row align-items-center justify-content-center">
-            <span class="col-3">チキン南蛮定食 &emsp;1000円</span>
-            <span class="col-1">&emsp;×<?php echo $chicken_nanban_number ?></span>
-            <span><?php echo number_format($chicken_nanban_price) ?>円</span>
-        </div>
-        <div class="form-group row align-items-center justify-content-center">
-            <span class="col-3">カレー定食 &emsp;750円</span>
-            <span class="col-1">&emsp;×<?php echo $curry_number ?></span>
-            <span><?php echo number_format($curry_price) ?>円</span>
-        </div>
-        <div class="text-center mt-5">
-            <h2>合計：<?php echo number_format($sum_price) ?>&emsp;円(税込)</h2>
-        </div>
+        <?php
+		$menu_sum_price = 0;
+		foreach ($orders as $order) {
+			$order->displayOrder();
+			$menu_sum_price += $order->calculatePrice();
+		}
+		$sum = $menu_sum_price + $fried_chicken->getSauceSumPrice();
+		displaySumPrice(number_format($sum));
+        ?>
         <div class="text-center mt-5">
             <button type="button" class="btn btn-info btn-lg" onclick="location.href='./order.php'">注文しなおす</button>
         </div>
