@@ -1,7 +1,5 @@
 <?php
 
-var_dump($_POST);
-
 ini_set("error_reporting", E_ALL);
 
 require_once '../class/fried_chicken_class.php';
@@ -37,13 +35,18 @@ $curry = new Curry($_POST['curry_number']);
 $curry_price = $curry->calculatePrice();
 $curry_number = $curry->number;
 
+$menu_sum_price = 0;
+
 $orders = [$fried_chicken, $chicken_nanban, $curry];
 foreach ($orders as $order) {
 	$order->displayOrder();
-	if (get_class($order) == 'FriedChicken') {
-		$order->displaySauceOrder();
-	}
+	$menu_sum_price += $order->calculatePrice();
 }
+
+$sum = $menu_sum_price + $fried_chicken->getSauceSumPrice();
+displaySumPrice(number_format($sum));
+
+var_dump($sum);
 
 if ($_POST['fried_number'] > 0) {
 	$sum_price = $fried_chicken_price + $chicken_nanban_price + $curry_price + $chili_price + $grated_radish_price + $wasabi_soy_price;
@@ -51,6 +54,14 @@ if ($_POST['fried_number'] > 0) {
 	$sum_price = $fried_chicken_price + $chicken_nanban_price + $curry_price;
 }
 
+function displaySumPrice($sum) {
+    echo <<<EOM
+<div class="text-center mt-5">
+    <h2>合計：$sum&emsp;円(税込)</h2>
+</div>
+EOM;
+
+}
 
 $today = (new DateTimeImmutable())->format('Y年m月d日 H:i');
 

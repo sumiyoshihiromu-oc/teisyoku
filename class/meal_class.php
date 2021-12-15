@@ -41,13 +41,17 @@ EOM;
 	}
 
 	public function displayOrder() {
-		echo <<<EOM
+		if (get_class($this) == 'FriedChicken') {
+			$this->displayFriedOrder();
+		} else {
+			echo <<<EOM
 <div class="form-group row align-items-center justify-content-center">
-	<span class="col-3">唐揚げ定食 &emsp;900円</span>
-	<span class="col-1">&emsp;×<?php echo $this->number ?></span>
-	<span><?php echo number_format($this->price) ?>円</span>
+	<span class="col-3">$this->name &emsp;{$this->price}円</span>
+	<span class="col-1">&emsp;×$this->number</span>
+	<span>{$this->calculatePrice()}円</span>
 </div>
 EOM;
+		}
 
 	}
 

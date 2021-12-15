@@ -10,6 +10,7 @@ class FriedChicken extends Meal {
 	public $price = 900;
 	public $name = '唐揚げ定食';
 	public $input_name = 'fried_number';
+	public $fried_and_sauce_price;
 
 	public $sauces = [];
 
@@ -42,12 +43,40 @@ EOM;
 			echo <<<EOM
 <div class="form-group row align-items-center justify-content-center">
 	<span class="col-3 text-right">$sauce->name &emsp;{$sauce->price}円</span>
-	<span class="col-1">&emsp;×<?php echo $sauce->number ?></span>
-	<span><?php echo number_format($sauce->price) ?>円</span>
+	<span class="col-1">&emsp;×$sauce->number</span>
+	<span>{$sauce->calculatePrice()}円</span>
 </div>
 EOM;
 		}
 
+	}
+
+	public function getSauceSumPrice() {
+		$sum_sauce_price = 0;
+		foreach ($this->sauces as $sauce) {
+			$sum_sauce_price += $sauce->calculatePrice();
+		}
+		return $sum_sauce_price;
+	}
+
+	public function displayFriedOrder() {
+		echo <<< EOM
+<div class="form-group row align-items-center justify-content-center">
+	<span class="col-3">$this->name &emsp;{$this->price}円</span>
+	<span class="col-1">&emsp;×$this->number</span>
+	<span>{$this->calculatePrice()}円</span>
+</div>
+EOM;
+
+		foreach ($this->sauces as $sauce) {
+			echo <<<EOM
+<div class="form-group row align-items-center justify-content-center">
+	<span class="col-3 text-right">$sauce->name &emsp;{$sauce->price}円</span>
+	<span class="col-1">&emsp;×$sauce->number</span>
+	<span>{$sauce->calculatePrice()}円</span>
+</div>
+EOM;
+		}
 	}
 
 }
