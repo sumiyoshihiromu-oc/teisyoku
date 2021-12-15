@@ -6,6 +6,6 @@ class WasabiSoySauce extends Meal {
 
 	public $price = 50;
 	public $name = 'わさび醤油';
-	public $input_name = 'grated_radish_number';
+	public $input_name = 'wasabi_soy_number';
 
 }

@@ -26,12 +26,26 @@ class FriedChicken extends Meal {
 
 		foreach ($this->sauces as $sauce) {
 			echo <<<EOM
-<div class="form-group row align-items-center justify-content-center" v-if="number > 0">
+<div class="form-group row align-items-center justify-content-center">
 	<label class="col-3 text-right">$sauce->name&emsp;{$sauce->price}円</label>
 	<span>個数：</span><input type="number" class="form-control col-1" name=$sauce->input_name min="0">
 </div>
 EOM;
 
+		}
+
+	}
+
+	public function displaySauceOrder() {
+
+		foreach ($this->sauces as $sauce) {
+			echo <<<EOM
+<div class="form-group row align-items-center justify-content-center">
+	<span class="col-3 text-right">$sauce->name &emsp;{$sauce->price}円</span>
+	<span class="col-1">&emsp;×<?php echo $sauce->number ?></span>
+	<span><?php echo number_format($sauce->price) ?>円</span>
+</div>
+EOM;
 		}
 
 	}

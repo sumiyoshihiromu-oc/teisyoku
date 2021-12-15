@@ -9,14 +9,6 @@ $fried_chicken = new FriedChicken(0, 0, 0, 0);
 $chicken_nanban = new ChickenNanban(0);
 $curry = new Curry(0);
 $menu = [$fried_chicken, $chicken_nanban, $curry];
-var_dump($menu);
-
-foreach ($menu as $m) {
-	$m->displayMenu();
-	if (get_class($m) == 'FriedChicken') {
-	    $m->displaySauceMenu();
-    }
-}
 
 ?>
 
@@ -37,30 +29,14 @@ foreach ($menu as $m) {
     </div>
     <div>
         <form action="display_receipt.php" method="post">
-            <div class="form-group row align-items-center justify-content-center">
-                <label for="fried_chicken" class="col-3">唐揚げ定食&emsp;900円</label>
-                <span>個数：</span><input type="number" class="form-control col-1" id="fried_chicken" name="fried_number" min="0" v-model="number">
-            </div>
-            <div class="form-group row align-items-center justify-content-center" v-if="number > 0">
-                <label for="chili_sauce" class="col-3 text-right">チリソース&emsp;50円</label>
-                <span>個数：</span><input type="number" class="form-control col-1" id="chili_sauce" name="chili_number" min="0">
-            </div>
-            <div class="form-group row align-items-center justify-content-center" v-if="number > 0">
-                <label for="grated_radish_sauce" class="col-3  text-right">大根おろしソース&emsp;100円</label>
-                <span>個数：</span><input type="number" class="form-control col-1" id="grated_radish_sauce" name="grated_radish_number" min="0">
-            </div>
-            <div class="form-group row align-items-center justify-content-center" v-if="number > 0">
-                <label for="wasabi_soy_sauce" class="col-3  text-right">わさび醤油&emsp;50円</label>
-                <span>個数：</span><input type="number" class="form-control col-1" id="wasabi_soy_sauce" name="wasabi_soy_number" min="0">
-            </div>
-            <div class="form-group row align-items-center justify-content-center">
-                <label for="chicken_nanban" class="col-3">チキン南蛮定食&emsp;1000円</label>
-                <span>個数：</span><input type="number" class="form-control col-1" name="nanban_number" id="chicken_nanban" min="0">
-            </div>
-            <div class="form-group row align-items-center justify-content-center">
-                <label for="curry" class="col-3">カレー定食&emsp;750円</label>
-                <span>個数：</span><input type="number" class="form-control col-1" name="curry_number" id="curry" min="0">
-            </div>
+            <?php
+			foreach ($menu as $m) {
+				$m->displayMenu();
+				if (get_class($m) == 'FriedChicken') {
+					$m->displaySauceMenu();
+				}
+			}
+            ?>
             <p class="text-danger text-center">※表示はすべて税抜き価格です。</p>
             <div class="text-center mt-5">
                 <button type="submit" class="btn btn-info btn-lg">注文する</button>

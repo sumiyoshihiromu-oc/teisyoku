@@ -8,7 +8,6 @@ abstract class Meal {
 
 	public function __construct($number) {
 
-		$this->price = $this->price * self::$tax;
 		if (!empty($number)) {
 			$this->number = $number;
 		} else {
@@ -18,11 +17,7 @@ abstract class Meal {
 	}
 
 	public function calculatePrice() {
-		return $this->price * $this->number;
-	}
-
-	public function getNumber() {
-		return $this->number;
+		return $this->price * self::$tax * $this->number;
 	}
 
 	public function displayMenu() {
@@ -30,6 +25,27 @@ abstract class Meal {
 <div class="form-group row align-items-center justify-content-center">
 	<label class="col-3">$this->name&emsp;{$this->price}円</label>
 	<span>個数：</span><input type="number" class="form-control col-1" name=$this->input_name min="0">
+</div>
+EOM;
+
+	}
+
+	public function displayMenuWithOptions() {
+		echo <<<EOM
+<div class="form-group row align-items-center justify-content-center">
+	<label class="col-3">$this->name&emsp;{$this->price}円</label>
+	<span>個数：</span><input type="number" class="form-control col-1" name=$this->input_name min="0" v-model="number">
+</div>
+EOM;
+
+	}
+
+	public function displayOrder() {
+		echo <<<EOM
+<div class="form-group row align-items-center justify-content-center">
+	<span class="col-3">唐揚げ定食 &emsp;900円</span>
+	<span class="col-1">&emsp;×<?php echo $this->number ?></span>
+	<span><?php echo number_format($this->price) ?>円</span>
 </div>
 EOM;
 

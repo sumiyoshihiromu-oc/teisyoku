@@ -7,7 +7,6 @@ class Sauce {
 
 	public function __construct($number){
 
-		$this->price = $this->price * self::$tax;
 		if (!empty($number)) {
 			$this->number = $number;
 		} else {
@@ -17,11 +16,7 @@ class Sauce {
 	}
 
 	public function calculatePrice() {
-		return $this->price * $this->number;
-	}
-
-	public function getNumber() {
-		return $this->number;
+		return $this->price * self::$tax * $this->number;
 	}
 
 }
