@@ -3,8 +3,9 @@
 require_once '../class/fried_chicken_class.php';
 require_once '../class/chicken_nanban_class.php';
 require_once '../class/curry_class.php';
+require_once '../class/sauce_class.php';
 
-$fried_chicken = new FriedChicken(0);
+$fried_chicken = new FriedChicken(0, 0, 0, 0);
 $chicken_nanban = new ChickenNanban(0);
 $curry = new Curry(0);
 $menu = [$fried_chicken, $chicken_nanban, $curry];
@@ -12,6 +13,9 @@ var_dump($menu);
 
 foreach ($menu as $m) {
 	$m->displayMenu();
+	if (get_class($m) == 'FriedChicken') {
+	    $m->displaySauceMenu();
+    }
 }
 
 ?>

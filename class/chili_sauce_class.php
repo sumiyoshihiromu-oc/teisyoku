@@ -1,8 +1,8 @@
 <?php
 
-require_once "meal_class.php";
+require_once "sauce_class.php";
 
-class ChiliSauce extends Meal {
+class ChiliSauce extends Sauce {
 
 	public $price = 50;
 	public $name = 'チリソース';

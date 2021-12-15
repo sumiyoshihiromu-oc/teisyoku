@@ -24,8 +24,4 @@ class Sauce {
 		return $this->number;
 	}
 
-	public function displayMenu() {
-		echo '<label class="col-3">' . $this->name . '&emsp;' . $this->price . '円</label><br>';
-	}
-
 }
