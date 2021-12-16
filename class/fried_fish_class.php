@@ -7,7 +7,24 @@ class FriedFish extends Meal implements LargeServingInterface {
 
 	public $price = 1000;
 	public $name = '魚フライ定食';
+	public $regular_number;
+	public $big_number;
 	public $input_name = 'fried_fish_number';
+
+	public function __construct($regular_number, $big_number) {
+		parent::__construct((int)$regular_number + (int)$big_number);
+		if (!empty($regular_number)) {
+			$this->regular_number = $regular_number;
+		} else {
+			$this->regular_number = 0;
+		}
+		if (!empty($big_number)) {
+			$this->big_number = $big_number;
+		} else {
+			$this->big_number = 0;
+		}
+	}
+
 
 	public function displayMenu() {
 		echo <<< EOM
@@ -21,6 +38,23 @@ class FriedFish extends Meal implements LargeServingInterface {
 </div>
 EOM;
 		self::displayLargeServingOptions();
+	}
+
+	public function displayOrder() {
+		$regular_rice_price = number_format(self::calculateEachPrice($this->regular_number));
+		$big_rice_price = number_format(self::calculateEachPrice($this->big_number));
+		echo <<< EOM
+<div class="form-group row align-items-center justify-content-center">
+	<span class="col-3">$this->name &emsp;ご飯普通 &emsp;{$this->price}円</span>
+	<span class="col-1">&emsp;×$this->regular_number</span>
+	<span>{$regular_rice_price}円</span>
+</div>
+<div class="form-group row align-items-center justify-content-center">
+	<span class="col-3">$this->name &emsp;ご飯大盛 &emsp;{$this->price}円</span>
+	<span class="col-1">&emsp;×$this->big_number</span>
+	<span>{$big_rice_price}円</span>
+</div>
+EOM;
 	}
 
 	public function displayLargeServingOptions() {
@@ -42,6 +76,13 @@ EOM;
 	<span class="mr-2 ml-3">※$this->is_large_serving</span>
 </div>
 EOM;
+	}
+
+	public function RegularAndBigRiceOrder() {
+		// TODO: Implement RegularAndBigRiceOrder() method.
+	}
+	public function calculateEachPrice($number) {
+		return $this->price * $number * self::$tax;
 	}
 
 }

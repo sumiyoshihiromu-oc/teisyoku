@@ -10,7 +10,7 @@ require_once '../function/method.php';
 $fried_chicken = new FriedChicken(0, 0, 0, 0);
 $chicken_nanban = new ChickenNanban(0);
 $curry = new Curry(0);
-$fried_fish = new FriedFish(0);
+$fried_fish = new FriedFish(0, 0);
 $menu = [$fried_chicken, $chicken_nanban, $curry, $fried_fish];
 $double_menus = [$fried_chicken, $fried_fish];
 

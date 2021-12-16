@@ -11,19 +11,31 @@ class FriedChicken extends Meal implements LargeServingInterface {
 
 	public $price = 900;
 	public $name = '唐揚げ定食';
+	public $regular_number;
+	public $big_number;
 	public $input_name = 'fried_number';
 
 	public $sauces = [];
-	public $is_large_serving;
 
-	public function __construct($number, $is_large_serving = null, $chili_number = null, $grated_radish_number = null, $wasabi_number = null) {
-		parent::__construct($number);
+	public function __construct($regular_number, $big_number, $chili_number = null, $grated_radish_number = null, $wasabi_number = null) {
+		parent::__construct((int)$regular_number + (int)$big_number);
+		if (!empty($regular_number)) {
+			$this->regular_number = $regular_number;
+		} else {
+			$this->regular_number = 0;
+		}
+		if (!empty($big_number)) {
+			$this->big_number = $big_number;
+		} else {
+			$this->big_number = 0;
+		}
+
+		var_dump($this);
 
 		$chili = new ChiliSauce($chili_number);
 		$grated_radish = new GratedRadishSauce($grated_radish_number);
 		$wasabi = new WasabiSoySauce($wasabi_number);
 		$this->sauces = [$chili, $grated_radish, $wasabi];
-		$this->is_large_serving = $is_large_serving;
 	}
 
 	public function displayMenu() {
@@ -48,19 +60,22 @@ EOM;
 
 	}
 
-	public function getSauceSumPrice() {
-		$sum_sauce_price = 0;
-		foreach ($this->sauces as $sauce) {
-			$sum_sauce_price += $sauce->calculatePrice();
-		}
-		return $sum_sauce_price;
-	}
-
 	public function displayOrder() {
-		parent::displayOrder();
-		if (!empty($this->is_large_serving)) {
-			self::displayLargeServingReceipt();
-		}
+		$regular_rice_price = number_format(self::calculateEachPrice($this->regular_number));
+		$big_rice_price = number_format(self::calculateEachPrice($this->big_number));
+		echo <<< EOM
+<div class="form-group row align-items-center justify-content-center">
+	<span class="col-3">$this->name &emsp;ご飯普通 &emsp;{$this->price}円</span>
+	<span class="col-1">&emsp;×$this->regular_number</span>
+	<span>{$regular_rice_price}円</span>
+</div>
+<div class="form-group row align-items-center justify-content-center">
+	<span class="col-3">$this->name &emsp;ご飯大盛 &emsp;{$this->price}円</span>
+	<span class="col-1">&emsp;×$this->big_number</span>
+	<span>{$big_rice_price}円</span>
+</div>
+EOM;
+
 		foreach ($this->sauces as $sauce) {
 			echo <<<EOM
 <div class="form-group row align-items-center justify-content-center">
@@ -70,6 +85,14 @@ EOM;
 </div>
 EOM;
 		}
+	}
+
+	public function getSauceSumPrice() {
+		$sum_sauce_price = 0;
+		foreach ($this->sauces as $sauce) {
+			$sum_sauce_price += $sauce->calculatePrice();
+		}
+		return $sum_sauce_price;
 	}
 
 	public function displayLargeServingOptions() {
@@ -82,18 +105,15 @@ EOM;
 
 	}
 
-	public function displayLargeServingOrder() {
-		echo <<<EOM
-<div class="form-group row align-items-center justify-content-center" v-if="number > 0">
-	<span class="col-3"></span>
-	<span class="col-1"></span>
-	<span class="mr-2 ml-3">※$this->is_large_serving</span>
-</div>
-EOM;
-
-	}
-
 	public function displayLargeServingReceipt() {
 		displayLargeServingOomori($this->is_large_serving);
+	}
+
+	public function RegularAndBigRiceOrder() {
+		RegularAndBigRiceOrder();
+	}
+
+	public function calculateEachPrice($number) {
+		return $this->price * $number * self::$tax;
 	}
 }
