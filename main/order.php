@@ -32,9 +32,6 @@ $menu = [$fried_chicken, $chicken_nanban, $curry];
             <?php
 			foreach ($menu as $m) {
 				$m->displayMenu();
-				if (get_class($m) == 'FriedChicken') {
-					$m->displaySauceMenu();
-				}
 			}
             ?>
             <p class="text-danger text-center">※表示はすべて税抜き価格です。</p>

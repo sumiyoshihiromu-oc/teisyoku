@@ -10,7 +10,6 @@ class FriedChicken extends Meal {
 	public $price = 900;
 	public $name = '唐揚げ定食';
 	public $input_name = 'fried_number';
-	public $fried_and_sauce_price;
 
 	public $sauces = [];
 
@@ -23,28 +22,18 @@ class FriedChicken extends Meal {
 		$this->sauces = [$chili, $grated_radish, $wasabi];
 	}
 
-	public function displaySauceMenu() {
-
-		foreach ($this->sauces as $sauce) {
-			echo <<<EOM
+	public function displayMenuWithSauce() {
+		echo <<< EOM
 <div class="form-group row align-items-center justify-content-center">
-	<label class="col-3 text-right">$sauce->name&emsp;{$sauce->price}円</label>
-	<span>個数：</span><input type="number" class="form-control col-1" name=$sauce->input_name min="0">
+	<label class="col-3">$this->name&emsp;{$this->price}円</label>
+	<span>個数：</span><input type="number" class="form-control col-1" name=$this->input_name min="0" v-model="number">
 </div>
 EOM;
-
-		}
-
-	}
-
-	public function displaySauceOrder() {
-
 		foreach ($this->sauces as $sauce) {
 			echo <<<EOM
-<div class="form-group row align-items-center justify-content-center">
-	<span class="col-3 text-right">$sauce->name &emsp;{$sauce->price}円</span>
-	<span class="col-1">&emsp;×$sauce->number</span>
-	<span>{$sauce->calculatePrice()}円</span>
+<div class="form-group row align-items-center justify-content-center" v-if="number > 0">
+	<label class="col-3 text-right">$sauce->name&emsp;{$sauce->price}円</label>
+	<span>個数：</span><input type="number" class="form-control col-1" name=$sauce->input_name min="0">
 </div>
 EOM;
 		}

@@ -21,22 +21,17 @@ abstract class Meal {
 	}
 
 	public function displayMenu() {
-		echo <<<EOM
+		if (get_class($this) == 'FriedChicken') {
+			$this->displayMenuWithSauce();
+		} else {
+			echo <<<EOM
 <div class="form-group row align-items-center justify-content-center">
 	<label class="col-3">$this->name&emsp;{$this->price}円</label>
 	<span>個数：</span><input type="number" class="form-control col-1" name=$this->input_name min="0">
 </div>
 EOM;
+		}
 
-	}
-
-	public function displayMenuWithOptions() {
-		echo <<<EOM
-<div class="form-group row align-items-center justify-content-center">
-	<label class="col-3">$this->name&emsp;{$this->price}円</label>
-	<span>個数：</span><input type="number" class="form-control col-1" name=$this->input_name min="0" v-model="number">
-</div>
-EOM;
 
 	}
 
