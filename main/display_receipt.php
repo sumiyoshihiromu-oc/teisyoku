@@ -2,6 +2,7 @@
 
 ini_set("error_reporting", E_ALL);
 
+var_dump($_POST);
 require_once '../class/fried_chicken_class.php';
 require_once '../class/chicken_nanban_class.php';
 require_once '../class/curry_class.php';
@@ -9,7 +10,24 @@ require_once '../class/chili_sauce_class.php';
 require_once '../class/grated_radish_sauce_class.php';
 require_once '../class/wasabi_soy_sauce.php';
 
-$fried_chicken = new FriedChicken($_POST['fried_number'], $_POST['chili_number'], $_POST['grated_radish_number'], $_POST['wasabi_soy_number']);
+if (!empty($_POST['fried_number_large_serving'])) {
+    $is_large_serving = "大盛";
+} else {
+	$is_large_serving = null;
+}
+
+if ($_POST['fried_number'] > 0) {
+	$fried_chicken = new FriedChicken($_POST['fried_number'], $is_large_serving, $_POST['chili_number'], $_POST['grated_radish_number'], $_POST['wasabi_soy_number']);
+} else {
+	$fried_chicken = new FriedChicken($_POST['fried_number'], $is_large_serving);
+}
+
+if (!empty($_POST["fried_number_large_serving"])) {
+    $large_serving = "大盛";
+} else {
+	$large_serving = "";
+}
+
 $chicken_nanban = new ChickenNanban($_POST['nanban_number']);
 $curry = new Curry($_POST['curry_number']);
 $orders = [$fried_chicken, $chicken_nanban, $curry];

@@ -1,5 +1,6 @@
 <?php
 
 interface LargeServingInterface {
-	public function changeAmountOfRice();
+	public function displayLargeServingOptions();
+	public function displayLargeServingReceipt();
 }

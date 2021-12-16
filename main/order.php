@@ -3,12 +3,16 @@
 require_once '../class/fried_chicken_class.php';
 require_once '../class/chicken_nanban_class.php';
 require_once '../class/curry_class.php';
+require_once '../class/fried_fish_class.php';
 require_once '../class/sauce_class.php';
+require_once '../function/method.php';
 
 $fried_chicken = new FriedChicken(0, 0, 0, 0);
 $chicken_nanban = new ChickenNanban(0);
 $curry = new Curry(0);
-$menu = [$fried_chicken, $chicken_nanban, $curry];
+$fried_fish = new FriedFish(0);
+$menu = [$fried_chicken, $chicken_nanban, $curry, $fried_fish];
+$double_menus = [$fried_chicken, $fried_fish];
 
 ?>
 
@@ -26,6 +30,13 @@ $menu = [$fried_chicken, $chicken_nanban, $curry];
 <div class="container" id="app">
     <div class="text-center mt-5 mb-5">
         <h1>ご注文</h1>
+        <small>
+            <?php
+            foreach ($double_menus as $double_menu) {
+                doublePoints($double_menu);
+            }
+            ?>
+        </small>
     </div>
     <div>
         <form action="display_receipt.php" method="post">
@@ -46,7 +57,9 @@ $menu = [$fried_chicken, $chicken_nanban, $curry];
     new Vue({
         el: '#app',
         data: {
-            number: ''
+            fried_number_regular: '',
+            fried_number_big: '',
+            fried_fish_number: ''
         }
     })
 </script>
