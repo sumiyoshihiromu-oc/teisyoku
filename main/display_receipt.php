@@ -2,7 +2,6 @@
 
 ini_set("error_reporting", E_ALL);
 
-var_dump($_POST);
 require_once '../class/fried_chicken_class.php';
 require_once '../class/chicken_nanban_class.php';
 require_once '../class/curry_class.php';

@@ -30,8 +30,6 @@ class FriedChicken extends Meal implements LargeServingInterface {
 			$this->big_number = 0;
 		}
 
-		var_dump($this);
-
 		$chili = new ChiliSauce($chili_number);
 		$grated_radish = new GratedRadishSauce($grated_radish_number);
 		$wasabi = new WasabiSoySauce($wasabi_number);
