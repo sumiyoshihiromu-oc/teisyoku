@@ -4,8 +4,9 @@ require_once 'meal_class.php';
 require_once 'chili_sauce_class.php';
 require_once 'grated_radish_sauce_class.php';
 require_once 'wasabi_soy_sauce.php';
+require_once '../interface/large_serving_interface.php';
 
-class FriedChicken extends Meal {
+class FriedChicken extends Meal implements LargeServingInterface {
 
 	public $price = 900;
 	public $name = '唐揚げ定食';
@@ -22,7 +23,7 @@ class FriedChicken extends Meal {
 		$this->sauces = [$chili, $grated_radish, $wasabi];
 	}
 
-	public function displayMenuWithSauce() {
+	public function displayMenu() {
 		echo <<< EOM
 <div class="form-group row align-items-center justify-content-center">
 	<label class="col-3">$this->name&emsp;{$this->price}円</label>
@@ -48,15 +49,8 @@ EOM;
 		return $sum_sauce_price;
 	}
 
-	public function displayFriedOrder() {
-		echo <<< EOM
-<div class="form-group row align-items-center justify-content-center">
-	<span class="col-3">$this->name &emsp;{$this->price}円</span>
-	<span class="col-1">&emsp;×$this->number</span>
-	<span>{$this->calculatePrice()}円</span>
-</div>
-EOM;
-
+	public function displayOrder() {
+		parent::displayOrder();
 		foreach ($this->sauces as $sauce) {
 			echo <<<EOM
 <div class="form-group row align-items-center justify-content-center">
@@ -66,6 +60,10 @@ EOM;
 </div>
 EOM;
 		}
+	}
+
+	public function changeAmountOfRice() {
+		// TODO: Implement changeAmountOfRice() method.
 	}
 
 }
