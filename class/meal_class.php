@@ -16,6 +16,20 @@ abstract class Meal {
 
 	}
 
+	public function setConstruct($regular_number, $big_number) {
+		self::__construct((int)$regular_number + (int)$big_number);
+		if (!empty($regular_number)) {
+			$this->regular_number = $regular_number;
+		} else {
+			$this->regular_number = 0;
+		}
+		if (!empty($big_number)) {
+			$this->big_number = $big_number;
+		} else {
+			$this->big_number = 0;
+		}
+	}
+
 	public function calculatePrice() {
 		return $this->price * self::$tax * $this->number;
 	}

@@ -18,17 +18,7 @@ class FriedChicken extends Meal implements LargeServingInterface {
 	public $sauces = [];
 
 	public function __construct($regular_number, $big_number, $chili_number = null, $grated_radish_number = null, $wasabi_number = null) {
-		parent::__construct((int)$regular_number + (int)$big_number);
-		if (!empty($regular_number)) {
-			$this->regular_number = $regular_number;
-		} else {
-			$this->regular_number = 0;
-		}
-		if (!empty($big_number)) {
-			$this->big_number = $big_number;
-		} else {
-			$this->big_number = 0;
-		}
+		parent::setConstruct($regular_number, $big_number);
 
 		$chili = new ChiliSauce($chili_number);
 		$grated_radish = new GratedRadishSauce($grated_radish_number);
@@ -91,24 +81,6 @@ EOM;
 			$sum_sauce_price += $sauce->calculatePrice();
 		}
 		return $sum_sauce_price;
-	}
-
-	public function displayLargeServingOptions() {
-		echo <<<EOM
-<div class="form-group row align-items-center justify-content-center" v-if="fried_number_regular > 0 || fried_number_big > 0">
-	<label class="col-3"></label>
-	<sapn><input class="mr-2 ml-3" type="checkbox" name="{$this->input_name}_large_serving">大盛</sapn>
-</div>
-EOM;
-
-	}
-
-	public function displayLargeServingReceipt() {
-		displayLargeServingOomori($this->is_large_serving);
-	}
-
-	public function RegularAndBigRiceOrder() {
-		RegularAndBigRiceOrder();
 	}
 
 	public function calculateEachPrice($number) {

@@ -12,17 +12,7 @@ class FriedFish extends Meal implements LargeServingInterface {
 	public $input_name = 'fried_fish_number';
 
 	public function __construct($regular_number, $big_number) {
-		parent::__construct((int)$regular_number + (int)$big_number);
-		if (!empty($regular_number)) {
-			$this->regular_number = $regular_number;
-		} else {
-			$this->regular_number = 0;
-		}
-		if (!empty($big_number)) {
-			$this->big_number = $big_number;
-		} else {
-			$this->big_number = 0;
-		}
+		parent::setConstruct($regular_number, $big_number);
 	}
 
 
@@ -37,7 +27,6 @@ class FriedFish extends Meal implements LargeServingInterface {
 	<span>ご飯大盛個数：</span><input type="number" class="form-control col-1" name={$this->input_name}_big min="0">
 </div>
 EOM;
-		self::displayLargeServingOptions();
 	}
 
 	public function displayOrder() {
@@ -57,30 +46,6 @@ EOM;
 EOM;
 	}
 
-	public function displayLargeServingOptions() {
-		echo <<< EOM
-<div class="form-group row align-items-center justify-content-center" v-if="{$this->input_name} > 0">
-	<label class="col-3"></label>
-	<sapn><input class="mr-2 ml-3" type="checkbox" name="{$this->input_name}_large_serving">大盛</sapn>
-</div>
-EOM;
-
-	}
-
-	public function displayLargeServingReceipt()
-	{
-		echo <<<EOM
-<div class="form-group row align-items-center justify-content-center">
-	<span class="col-3"></span>
-	<span class="col-1"></span>
-	<span class="mr-2 ml-3">※$this->is_large_serving</span>
-</div>
-EOM;
-	}
-
-	public function RegularAndBigRiceOrder() {
-		// TODO: Implement RegularAndBigRiceOrder() method.
-	}
 	public function calculateEachPrice($number) {
 		return $this->price * $number * self::$tax;
 	}
