@@ -12,7 +12,7 @@ $chicken_nanban = new ChickenNanban(0);
 $curry = new Curry(0);
 $fried_fish = new FriedFish(0, 0);
 $menu = [$fried_chicken, $chicken_nanban, $curry, $fried_fish];
-$double_menus = [$fried_chicken, $fried_fish];
+$double_rice_menus = [$fried_chicken, $fried_fish];
 
 ?>
 
@@ -32,8 +32,8 @@ $double_menus = [$fried_chicken, $fried_fish];
         <h1>ご注文</h1>
         <small>
             <?php
-            foreach ($double_menus as $double_menu) {
-                doublePoints($double_menu);
+            foreach ($double_rice_menus as $double_rice_menu) {
+                doublePoints($double_rice_menu);
             }
             ?>
         </small>
@@ -58,8 +58,7 @@ $double_menus = [$fried_chicken, $fried_fish];
         el: '#app',
         data: {
             fried_number_regular: '',
-            fried_number_big: '',
-            fried_fish_number: ''
+            fried_number_big: ''
         }
     })
 </script>
